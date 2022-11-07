@@ -1,2 +1,2 @@
-# edf-simulator-electron-app
-Electron app. Simulator of EDF task ordering algorithm.
+# Electron-Typescript-Webpack-Template
+Custom template based on Electron Forge - without React
