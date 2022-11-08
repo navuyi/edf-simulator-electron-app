@@ -6,8 +6,35 @@
 
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <a href="setup">Navigate</a>
+    <container>
+      <control-panel>
+        <div class="input-wrapper">
+          <label for="deadline-input">Deadline</label>
+          <input id="deadline-input" placeholder="Deadline"/>
+        </div>
+
+        <div class="input-wrapper">
+          <label for="execution-time-input">Execution time</label>
+          <input id="execution-time-input" placeholder="Execution time"/>
+        </div>
+
+
+
+        <button id="add-task">Add new task</button>
+      </control-panel>
+
+
+
+
+      <display>
+        <taskline>
+
+        </taskline>
+        <timeline>
+
+
+        </timeline>
+      </display>
+    </container>
   </body>
 </html>

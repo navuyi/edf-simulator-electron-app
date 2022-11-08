@@ -1,1 +1,101 @@
-@import "../style.config.scss"
+@import "../style.config.scss";
+
+html{
+  width: 100%;
+  height: 100%;
+
+  font-size: 16px;
+}
+
+body{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #222222;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+container{
+  width: 80%;
+  height: 50%;
+  background-color: $dark-blue;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  color: whitesmoke;
+
+  border-top-right-radius: 1em;
+  border-top-left-radius: 1em;
+}
+
+
+control-panel{
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1em 1em;
+}
+
+.input-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+display{
+  width: 100%;
+  height: 100px;
+  background-color: #e8ffc5;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: auto;
+}
+
+
+
+timeline, taskline{
+  width: 100%;
+  height: 50%;
+  background-color: #333333;
+
+  display: flex;
+  flex-direction: row;
+
+  overflow-x: auto;
+}
+
+taskline tasktile{
+  width: 100%;
+  background-color: whitesmoke;
+  border: 1px solid black;
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+timeline timetile{
+  width: 100%;
+  background-color: beige;
+  border: 1px solid black;
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
