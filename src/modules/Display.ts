@@ -44,10 +44,10 @@ export class Display{
     }
 
     public update = (current_time:number, history:Array<string>):void => {
-        console.log(history)
         this.task_tiles.forEach((tile, index) => {
             if(history[index] != null){
                 tile.innerText = history[index]
+                this.set_tile_color(tile)
             }
         })
 
@@ -55,6 +55,18 @@ export class Display{
             this.time_tiles.forEach(tile => {
                 tile.innerText = (parseInt(tile.innerText)+1).toString()
             })
+        }
+    }
+
+    private set_tile_color = (tile : HTMLElement) : void => {
+        if(tile.innerText === "T1"){
+            tile.style.backgroundColor = "#d00187" 
+        }
+        else if(tile.innerText === "T2"){
+            tile.style.backgroundColor = "#8f065f" 
+        }
+        else if(tile.innerText === "T3"){
+            tile.style.backgroundColor = "#510536" 
         }
     }
 }

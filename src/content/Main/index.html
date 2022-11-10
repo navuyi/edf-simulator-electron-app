@@ -8,23 +8,33 @@
   <body>
     <container>
       <control-panel>
-        <div class="input-wrapper">
-          <label for="deadline-input">Deadline</label>
-          <input id="deadline-input" placeholder="Deadline"/>
-        </div>
-
-        <div class="input-wrapper">
-          <label for="execution-time-input">Execution time</label>
-          <input id="execution-time-input" placeholder="Execution time"/>
-        </div>
-
-
-
-        <button id="add-task">Add new task</button>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Deadline</th>
+            <th>Execution time</th>
+          </tr>
+          <tr>
+            <td>T1</td>
+            <td><input type="number" id="deadline_01"/></td>
+            <td><input type="number" id="execution_time_01"/></td>
+          </tr>
+          <tr>
+            <td>T2</td>
+            <td><input type="number" id="deadline_02"/></td>
+            <td><input type="number" id="execution_time_02"/></td>
+          </tr>
+          <tr>
+            <td>T3</td>
+            <td><input type="number" id="deadline_03"/></td>
+            <td><input type="number" id="execution_time_03"/></td>
+          </tr>
+        </table>
+        <button-wrapper>
+          <button id="generate-random">Random</button>
+          <button id="start">Start</button>
+        </button-wrapper>
       </control-panel>
-
-
-
 
       <display>
         <taskline>

@@ -1,15 +1,13 @@
-import {parse} from "@typescript-eslint/parser";
+
 
 export type T_TASK =  {
     execution_time: number,
     deadline: number,
+    execution_time_original: number,
+    deadline_original: number,
     name: string
 }
 
-type T_HISTORY_ELEMENT = {
-    time: number,
-    task_name: string
-}
 
 export class EDF{
     private tasks:Array<T_TASK>
@@ -19,42 +17,9 @@ export class EDF{
         this.tasks = initial_tasks
         this.history = []
 
-        this.init()
     }
 
-    private init = () : void => {
-        this.init_controls()
-    }
-
-    private init_controls = () : void => {
-        document.getElementById("add-task").onclick = (e) => {
-            try{
-                const deadline = parseInt((document.getElementById("deadline-input") as HTMLInputElement).value)
-                const execution_time = parseInt((document.getElementById("execution-time-input") as HTMLInputElement).value)
-
-                if(deadline < execution_time){
-                    console.log("Deadline must be larger value than execution time")
-                    return
-                }
-                if(!deadline || !execution_time){
-                    return
-                }
-                this.tasks.push({
-                    execution_time: execution_time,
-                    deadline: deadline,
-                    name: ""
-                })
-            }
-            catch (err){
-                console.log(err)
-                return
-            }
-
-
-
-        }
-    }
-
+   
 
     public sort_by_earliest_deadline = ():void => {
         this.tasks = this.tasks.sort((a,b) => a.deadline - b.deadline)
@@ -68,17 +33,17 @@ export class EDF{
         }
         const priority_task = this.tasks[0]
         if(priority_task.execution_time > 0){
-            this.tasks[0].execution_time -= 1
-            console.log(`Executing task ${this.tasks[0].name}`)
-            this.history.push(this.tasks[0].name)
+            priority_task.execution_time -= 1
+            this.history.push(priority_task.name)
         }
 
         this.tasks.forEach(task => {
             if(task.execution_time > 0){
                 task.deadline -= 1
             }
-
         })
+
+        console.log(this.tasks.slice())
     }
 
     public remove_finished_tasks = () => {
@@ -90,6 +55,15 @@ export class EDF{
         }
     }
 
+    public reset_finished_tasks = (current_time : number) => {
+        for(const task of this.tasks){
+            if(task.execution_time === 0){
+                task.deadline = task.deadline_original + current_time
+                task.execution_time = task.execution_time_original
+            }
+        }
+    }
+
     public get_history = (max_elements:number) : Array<string> => {
         if(this.history.length < max_elements){
             return this.history
@@ -97,5 +71,10 @@ export class EDF{
         else{
             return this.history.slice(-max_elements)
         }
+    }
+
+    public are_there_task_left = () : boolean => {
+        console.log(this.tasks.length)
+        return this.tasks.length > 0
     }
 }

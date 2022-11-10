@@ -5,6 +5,7 @@ html{
   height: 100%;
 
   font-size: 16px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 body{
@@ -12,7 +13,7 @@ body{
   height: 100%;
   padding: 0;
   margin: 0;
-  background-color: #222222;
+  background-color: whitesmoke;
 
   display: flex;
   justify-content: center;
@@ -21,12 +22,11 @@ body{
 
 container{
   width: 80%;
-  height: 50%;
-  background-color: $dark-blue;
 
   display: flex;
   flex-direction: column;
 
+  align-items: center;
   justify-content: space-between;
 
   color: whitesmoke;
@@ -37,20 +37,23 @@ container{
 
 
 control-panel{
-  width: 50%;
+  width: 100%;
+  height: 100%;
+
+  border-radius: 1.5em;
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
-  padding: 1em 1em;
+  padding: 0 1em;
+  padding-top: 2em;
+
+  background-color: $dark-blue;
+
+  box-sizing: border-box;
 }
 
-.input-wrapper{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
 
 display{
   width: 100%;
@@ -63,12 +66,68 @@ display{
   overflow-x: auto;
 }
 
+table{
+  width: 100%;
+}
+th{
+  font-size: 1.5em;
+  font-weight: 100;
+}
+td{
+  text-align: center;
+}
+input{
+  font-size: 1em;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid black;
 
+  padding: 0.5em 1em;
+}
+
+button-wrapper{
+  display: flex;
+  align-self: flex-end;
+  justify-self: flex-end;
+
+  margin-top: 2em;
+  transform: translateY(50%);
+  z-index: 10;
+}
+
+button{
+  min-width: 200px;
+  padding: 1em;
+  background-color: gold;
+  color: $dark-blue;
+  font-size: 1.1em;
+
+  margin: 0 1em;
+
+  border: none;
+  border-radius: 1em;
+  cursor: pointer;
+}
+button:hover{
+  background-color: goldenrod;
+}
+
+button[disabled]{
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+
+display{
+  margin-top: 5em;
+  background-color: white;
+  width: 100%;
+}
 
 timeline, taskline{
   width: 100%;
   height: 50%;
-  background-color: #333333;
+  
 
   display: flex;
   flex-direction: row;

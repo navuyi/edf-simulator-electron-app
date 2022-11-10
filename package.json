@@ -1,8 +1,8 @@
 {
-  "name": "electron-typescript-webpack-template",
-  "productName": "electron-typescript-webpack-template",
+  "name": "edf-simulator",
+  "productName": "edf-simulator",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "EDF Simulator",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
