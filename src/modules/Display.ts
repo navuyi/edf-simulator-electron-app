@@ -51,7 +51,7 @@ export class Display{
             }
         })
 
-        if(history.length >= this.display_size){
+        if(history.length > this.display_size){
             this.time_tiles.forEach(tile => {
                 tile.innerText = (parseInt(tile.innerText)+1).toString()
             })
@@ -67,6 +67,9 @@ export class Display{
         }
         else if(tile.innerText === "T3"){
             tile.style.backgroundColor = "#510536" 
+        }
+        else if(tile.innerText === ""){
+            tile.style.backgroundColor = "whitesmoke"
         }
     }
 }

@@ -22,16 +22,14 @@ const execution_time_02 = document.getElementById("execution_time_02") as HTMLIn
 const execution_time_03 = document.getElementById("execution_time_03") as HTMLInputElement
 
 document.getElementById("generate-random").onclick = (e) => {
-    const val_01 = get_random_int(10)+10
-    const val_02 = get_random_int(10)+10
-    const val_03 = get_random_int(10)+10
+    const T1 = get_random_int(15)+5;    const p1 = Math.floor(0.3*T1)
+    const T2 = get_random_int(15)+5;    const p2 = Math.floor(0.3*T2)
+    const T3 = get_random_int(15)+5;    const p3 = Math.floor(0.3*T3)
 
-    deadline_01.value = val_01.toString(); execution_time_01.value = (val_01 - get_random_int(5) - 1).toString()
-    deadline_02.value = val_02.toString(); execution_time_02.value = (val_02 - get_random_int(5) - 1).toString()
-    deadline_03.value = val_03.toString(); execution_time_03.value = (val_03 - get_random_int(5) - 1).toString()
+    deadline_01.value = T1.toString(); execution_time_01.value = p1.toString()
+    deadline_02.value = T2.toString(); execution_time_02.value = p2.toString()
+    deadline_03.value = T3.toString(); execution_time_03.value = p3.toString()
 }
-
-
 document.getElementById("start").onclick = () => {start()}
 
 
@@ -52,26 +50,31 @@ const start = () : void => {
         window.alert("Execution time of a task cannot be longer than its deadline!")
         return
     }
+    const coef = Number(execution_time_01.value)/Number(deadline_01.value) + Number(execution_time_02.value)/Number(deadline_02.value) + Number(execution_time_03.value)/Number(deadline_03.value)
+    if(coef > 1){
+        window.alert(`Processor usage coefficient must be less than or equal 1. Current value ${coef}`)
+        return
+    }
 
     tasks.push({
-        execution_time: Number(execution_time_01.value),
-        deadline: Number(deadline_01.value),
-        deadline_original: Number(deadline_01.value),
-        execution_time_original: Number(execution_time_01.value),
+        p: Number(execution_time_01.value),
+        T: Number(deadline_01.value),
+        current_T: Number(deadline_01.value),
+        current_p: 0,
         name: "T1"
     })
     tasks.push({
-        execution_time: Number(execution_time_02.value),
-        deadline: Number(deadline_02.value),
-        deadline_original: Number(deadline_02.value),
-        execution_time_original: Number(execution_time_02.value),
+        p: Number(execution_time_02.value),
+        T: Number(deadline_02.value),
+        current_T: Number(deadline_02.value),
+        current_p: 0,
         name: "T2"
     })
     tasks.push({
-        execution_time: Number(execution_time_03.value),
-        deadline: Number(deadline_03.value),
-        deadline_original: Number(deadline_03.value),
-        execution_time_original: Number(execution_time_03.value),
+        p: Number(execution_time_03.value),
+        T: Number(deadline_03.value),
+        current_T: Number(deadline_03.value),
+        current_p: 0,
         name: "T3"
     })
 
@@ -83,22 +86,21 @@ const start = () : void => {
     document.getElementById("start").setAttribute("disabled", "true")
     document.getElementById("generate-random").setAttribute("disabled", "true")
 
-    let time = 0
+    let time = -1
     let running = true
     const interval = setInterval(() => {
         time += 1
 
-        edf.sort_by_earliest_deadline()
-        edf.apply_time_progress()
-        edf.remove_finished_tasks()
-        edf.reset_finished_tasks(time)
+        edf.handle_task_life_cycle(time)
+        edf.sort_by_earliest_deadline(time)
+        edf.apply_time_progress(time)
+       
 
-        display.update(time, edf.get_history(DISPLAY_SIZE))
-
-        edf.are_there_task_left() ? null : clearInterval(interval)
-
+        //console.log(edf.get_tasks())
+        //edf.reset_finished_tasks(time)
         
-
+        display.update(time, edf.get_history(DISPLAY_SIZE))
+        //edf.are_there_task_left() ? null : clearInterval(interval)
     }, TIME_STEP)
 }
 

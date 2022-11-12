@@ -1,65 +1,69 @@
 
 
 export type T_TASK =  {
-    execution_time: number,
-    deadline: number,
-    execution_time_original: number,
-    deadline_original: number,
+    p: number,
+    T: number,
+    current_T: number,
+    current_p: number,
     name: string
 }
 
 
 export class EDF{
     private tasks:Array<T_TASK>
+    private archive:Array<T_TASK>
     private history:Array<string>
 
     constructor(initial_tasks:Array<T_TASK>) {
         this.tasks = initial_tasks
+        this.archive = []
         this.history = []
 
     }
 
    
 
-    public sort_by_earliest_deadline = ():void => {
-        this.tasks = this.tasks.sort((a,b) => a.deadline - b.deadline)
+    public sort_by_earliest_deadline = (current_time : number):void => {
+        this.tasks = this.tasks.sort((a,b) => (a.current_T-current_time) - (b.current_T-current_time))
+        //this.tasks = this.tasks.sort((a,b) => a.deadline - b.deadline)
     }
 
-    public apply_time_progress = ():void => {
-        if(this.tasks.length === 0){
-            console.log("No tasks to be run")
+    public apply_time_progress = (current_time : number):void => {
+        if(this.tasks.length > 0){
+            const first_task = this.tasks[0]
+            first_task.current_p += 1
+            this.history.push(first_task.name)
+            console.log(`Executing task ${first_task.name}`)
+        }
+        else{
             this.history.push("")
-            return
-        }
-        const priority_task = this.tasks[0]
-        if(priority_task.execution_time > 0){
-            priority_task.execution_time -= 1
-            this.history.push(priority_task.name)
-        }
-
-        this.tasks.forEach(task => {
-            if(task.execution_time > 0){
-                task.deadline -= 1
-            }
-        })
-
-        console.log(this.tasks.slice())
-    }
-
-    public remove_finished_tasks = () => {
-        let i = this.tasks.length
-        while (i--) {
-            if (this.tasks[i].execution_time === 0) {
-                this.tasks.splice(i, 1);
-            }
         }
     }
 
-    public reset_finished_tasks = (current_time : number) => {
-        for(const task of this.tasks){
-            if(task.execution_time === 0){
-                task.deadline = task.deadline_original + current_time
-                task.execution_time = task.execution_time_original
+
+    public handle_task_life_cycle = (current_time:number) => {
+        let index = this.tasks.length
+        while(index--){
+            const task = this.tasks[index]
+            if(task.current_p === task.p){
+                console.log(`Moving task ${task.name} to archive`)
+                task.current_p = 0
+                this.archive.push(task)
+                this.tasks.splice(index, 1)
+            }
+        }
+
+        // Add task back to this.tasks --> means its active again
+        let x = this.archive.length
+        while(x--){
+            const task = this.archive[x]
+            if(task.current_T === current_time){
+                console.log(`Moving task ${task.name} back to living`)
+                task.current_T += task.T
+                task.current_p = 0
+                this.tasks.push(task)
+
+                this.archive.splice(x, 1)
             }
         }
     }
@@ -71,6 +75,10 @@ export class EDF{
         else{
             return this.history.slice(-max_elements)
         }
+    }
+
+    public get_tasks = () : Array<T_TASK>=> {
+        return JSON.parse(JSON.stringify(this.tasks));
     }
 
     public are_there_task_left = () : boolean => {
