@@ -18,10 +18,8 @@ export class EDF{
         this.tasks = initial_tasks
         this.archive = []
         this.history = []
-
     }
 
-   
 
     public sort_by_earliest_deadline = (current_time : number):void => {
         this.tasks = this.tasks.sort((a,b) => (a.current_T-current_time) - (b.current_T-current_time))
@@ -68,7 +66,7 @@ export class EDF{
         }
     }
 
-    public get_history = (max_elements:number) : Array<string> => {
+    public get_history = (max_elements:number = this.history.length) : Array<string> => {
         if(this.history.length < max_elements){
             return this.history
         }

@@ -33,6 +33,26 @@ document.getElementById("generate-random").onclick = (e) => {
 document.getElementById("start").onclick = () => {start()}
 
 
+
+let time = -1
+let interval : ReturnType<typeof setInterval> = undefined
+let running = true
+
+
+document.getElementById("pause-resume").onclick = (e : MouseEvent) => {
+    if(running === true){
+        running = false
+        const button = e.currentTarget as HTMLElement
+        button.innerText= "Resume"
+    }
+    else if(running === false){
+        running = true
+        const button = e.currentTarget as HTMLElement
+        button.innerText= "Pause"
+    }
+}
+
+
 const start = () : void => {
     if(
         !deadline_01.value || !deadline_02 || !deadline_03 ||
@@ -78,29 +98,26 @@ const start = () : void => {
         name: "T3"
     })
 
-
     const edf = new EDF(tasks)
     const display = new Display(DISPLAY_SIZE)
 
-
     document.getElementById("start").setAttribute("disabled", "true")
     document.getElementById("generate-random").setAttribute("disabled", "true")
+    document.getElementById("pause-resume").removeAttribute("disabled")
 
-    let time = -1
-    let running = true
-    const interval = setInterval(() => {
+    
+
+    interval = setInterval(() => {
+        if(running === false){
+           return
+        }
         time += 1
 
         edf.handle_task_life_cycle(time)
         edf.sort_by_earliest_deadline(time)
         edf.apply_time_progress(time)
-       
-
-        //console.log(edf.get_tasks())
-        //edf.reset_finished_tasks(time)
-        
-        display.update(time, edf.get_history(DISPLAY_SIZE))
-        //edf.are_there_task_left() ? null : clearInterval(interval)
+    
+        display.update(time, edf.get_history())
     }, TIME_STEP)
 }
 

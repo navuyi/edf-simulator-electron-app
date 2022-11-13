@@ -55,16 +55,6 @@ control-panel{
 }
 
 
-display{
-  width: 100%;
-  height: 100px;
-  background-color: #e8ffc5;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow-x: auto;
-}
 
 table{
   width: 100%;
@@ -112,7 +102,7 @@ button:hover{
   background-color: goldenrod;
 }
 
-button[disabled]{
+button[disabled="true"]{
   background-color: lightgray;
   cursor: not-allowed;
 }
@@ -121,22 +111,29 @@ button[disabled]{
 display{
   margin-top: 5em;
   background-color: white;
-  width: 100%;
+  
+  max-width: 100%;
+  min-width: 100%;
+  height: 100px;
+  
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+  scroll-behavior:auto;
+  scroll-padding-block-end: 1px;
 }
 
 timeline, taskline{
   width: 100%;
   height: 50%;
   
-
   display: flex;
   flex-direction: row;
-
-  overflow-x: auto;
 }
 
 taskline tasktile{
-  width: 100%;
+  min-width: 5%;
   background-color: whitesmoke;
   border: 1px solid black;
   color: black;
@@ -145,11 +142,11 @@ taskline tasktile{
   align-items: center;
   justify-content: center;
 
-
+  box-sizing: border-box;
 }
 
 timeline timetile{
-  width: 100%;
+  min-width: 5%;
   background-color: beige;
   border: 1px solid black;
   color: black;
@@ -157,4 +154,6 @@ timeline timetile{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  box-sizing: border-box;
 }
